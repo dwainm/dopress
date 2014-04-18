@@ -72,6 +72,10 @@ header{
 	padding: 0.5em 0.5em 0.7em;
 }
 
+.item.completed{
+	color: #bbbbbb;
+}
+
 #list .item:last-child{
 	border-bottom: none;
 }

@@ -76,8 +76,8 @@ var ItemView = Backbone.View.extend({
 			   model: {},
 			   //model: itemModel,
 			   events: {
-			   		'change input':'changeState',
-			   		'click': 'itemClick'
+
+			   		'click': 'changeState'
 			   },
 			   initialize: function(){
 
@@ -94,12 +94,7 @@ var ItemView = Backbone.View.extend({
 			   		return this;
 			   },
 
-			   changeState: function(event){
-			   		this.model.toggleComplete(event.target.checked);
-			   		this.render();
-			   		return this;	   		
-			   },
-			   itemClick: function(){
+			   changeState: function(){
 			   		//this.model.toggleComplete();
 			   		var toggleTo = this.model.isComplete() ? false : true ; //oposit of current modle data
 			   		this.model.toggleComplete(toggleTo);
