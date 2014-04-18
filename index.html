@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Do This - a Backbone Forgetful Todo list app</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<div id="app">
+			<header>	
+					<h1>DoPress</h1>
+			</header>
+			<form id='item-add-form' >
+				<input id="item-add-text" name="item-add-text" type="text" placeholder="add todo item" />
+				<input type="submit" id="add-button" value="Add" / > 
+			</form>	
+			<ul id="list">
+			<!--	<li class="item" id="1"><input type="checkbox" name="1" /><div class="description">Sample to do item</div>   </li>
+				<li class="item" id="2"><input type="checkbox" name="2" /><div class="description">Sample to do item 2</div>   </li>	-->			
+			</ul>
+				
+		</div>
+		<!-- Loading Javascript-->
+		<script type="text/javascript" src="vendors/jquery.js"></script>
+		<script type="text/javascript" src="vendors/underscore.min.js"></script>
+		<script type="text/javascript" src="vendors/backbone.min.js"></script>
+
+		<script type="text/javascript" src="app.js"></script>
+	</body>
+</html>
