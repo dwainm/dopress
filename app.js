@@ -4,12 +4,15 @@
 //  TASKS:
 
 
-* complete custom class and custom styling
-* hide completed
-* complete all
-* chante description to title to make room for a 
-  larger description area
-* styling mobile friendly changes
+
+
+
+* commit all change as version one tag it as well
+* add local storage 
+v2
+* hide completed 
+* when hide all is active and you complete an item that item should get the hidden class  
+* possibly add a description for each item
 * create theme boilerplate code
 * create post type for todo tasks 
 * hook up models with WordPress data
@@ -27,7 +30,7 @@ var itemModel = Backbone.Model.extend({
 			defualts: function(){
 				return {
 						status: "incomplete",
-						description: ''
+						title: ''
 					};
 			},
 
@@ -53,14 +56,13 @@ var ItemCollection = Backbone.Collection.extend({
 			model: itemModel 
 
 });
-// item model { ID , Status: (complete || incomplete) , description }
+// item model { ID , Status: (complete || incomplete) , title }
 
 
 // Instantiate Application Object
 
 var app = new AppModel({version: 1, name: "Do This" , status:'active'});
 var formModel = new FormModel({active: "true", position: "top" , visible:'true'}); 
-var listModel = new ListModel({total: 0, totalCompleted: 0  , totalIncomplete: 0 }); 
 
 
 // declare application views
@@ -81,7 +83,7 @@ var ItemView = Backbone.View.extend({
 			   },
 			   initialize: function(){
 
-		   			var tmpl  =  '<input type="checkbox"/><div class="description"></div>';
+		   			var tmpl  =  '<input type="checkbox"/><div class="title"></div>';
 
  					this.$el.html(tmpl)
  							.attr('class','item');
@@ -110,7 +112,7 @@ var ItemView = Backbone.View.extend({
     				this.$el.attr('id', this.model.attributes.id)
    							.children('input').attr('name',this.model.attributes.id)
    							.prop('checked', this.model.isComplete() )
-   							.next('.description').html(this.model.attributes.description);	
+   							.next('.title').html(this.model.attributes.title);	
 
    					// set complet /incomplete class
    					if( this.model.isComplete() ){
@@ -130,12 +132,19 @@ var ItemView = Backbone.View.extend({
 var ListView = Backbone.View.extend({
 				el: $('#list'),
 				viewType : 'List',
+				model: {},
 				collection : new  ItemCollection(),
+				events:{
+					'click #hideCompleted':'toggleCompleted'
+				},
 				initialize: function(){
+
+					this.model = new ListModel({total: 0, totalCompleted: 0  , totalIncomplete: 0 , hideCompleted: false});
+
 					//event listeners
 					this.listenTo(this.collection, 'add',this.addItem);
+					 
 					//delete listner this.listenTo(this.collection, 'remove/delete',this.addItem);
-
 					this.itemViews = [];
 				},
 
@@ -153,19 +162,40 @@ var ListView = Backbone.View.extend({
 
 					// loop through all new objects and add the latest to the list
 				},
-				removeCompleted: function(){
+				toggleCompleted: function(){
 						//loop through each element calling its remove method
+						if(this.model.hideCompleted){
+							this.model.hideCompleted = false;
+							this.$el.children('#hideCompleted').html('Hide Completed');
+						}else{
+							this.model.hideCompleted = true;
+							this.$el.children('#hideCompleted').html('Show Completed');
+						}
+						this.render();
+						return this;
+						
 				},
 				render: function(){
 
 					//Add items that's not yet on the list but in the views array
 
 					_.each(this.itemViews, function(item){
+
+						if(this.model.hideCompleted && item.model.isComplete()){
+							//hide this element
+							item.$el.addClass('hidden');
+						}else{
+							//show this element
+							item.$el.removeClass('hidden');
+						}
+										
+
      					if ( _.isNull(item.el.offsetParent) ){
      						// object if no parrent exists
      						this.$el.append(item.$el);
      					}; 
 					}, this);
+
 
 
 				}
@@ -187,7 +217,7 @@ var FormView = Backbone.View.extend({
 
 							event.preventDefault();
 							var newID = _.uniqueId('item_');
-							var newItemData = { id: newID ,description: this.inputText.val() ,status:"incomplete"};
+							var newItemData = { id: newID ,title: this.inputText.val() ,status:"incomplete"};
 							listView.collection.add(newItemData);	
 							
 							// add success check here
