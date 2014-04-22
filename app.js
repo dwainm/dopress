@@ -1,23 +1,20 @@
 (function($){
 
 /*
-//  TASKS:
 
+//  Dev  TASKS:
 
-
-
-
-* commit all change as version one tag it as well
-* add local storage 
 v2
-* hide completed 
+* move into subfolders and files each peice of the project and change folder name to dopress [plugin]
+* implement footer count
+* implement local storage
 * when hide all is active and you complete an item that item should get the hidden class  
 * possibly add a description for each item
 * create theme boilerplate code
 * create post type for todo tasks 
 * hook up models with WordPress data
-
 */
+
 
 // Declare data models
 
@@ -29,34 +26,25 @@ var ListModel = Backbone.Model.extend({});
 var itemModel = Backbone.Model.extend({
 			defualts: function(){
 				return {
-						status: "incomplete",
+						completed: false,
 						title: ''
-					};
+					}; 
 			},
 
-			toggleComplete: function(checked){ 
-				//data toggle code here
-				this.attributes.status = checked ? 'complete':  'incomplete';				
+			toggle: function(){ 
+				// toggle  the completed to true or false whic triggers all change listeners
+				this.set('completed', !this.get('completed') ) ;				
 				return this;
-			},
-
-			isComplete: function(){
-				
-				if(this.attributes.status==='complete'){
-					return true;
-				}else{
-					return false;
-				}
 			}
 
 });
 
 
 var ItemCollection = Backbone.Collection.extend({
+			//localStorage: new Backbone.LocalStorage('dopress-items'),
 			model: itemModel 
 
 });
-// item model { ID , Status: (complete || incomplete) , title }
 
 
 // Instantiate Application Object
@@ -68,54 +56,51 @@ var formModel = new FormModel({active: "true", position: "top" , visible:'true'}
 // declare application views
 
 
-
-
 //item view
 
 var ItemView = Backbone.View.extend({
 			   tagName: 'li',
 			   viewType : 'Item',
 			   model: {},
-			   //model: itemModel,
 			   events: {
-
 			   		'click': 'changeState'
 			   },
-			   initialize: function(){
+			   initialize: function(newModelObj){
+			   		
+			   		// attach a this view's modle from the collection addd event
+			   		this.model =   newModelObj;
 
+
+			   		// register and prepar dom element
 		   			var tmpl  =  '<input type="checkbox"/><div class="title"></div>';
+ 					this.$el.html(tmpl).attr('class','item');
 
- 					this.$el.html(tmpl)
- 							.attr('class','item');
+ 					// remove the uneeded attritebutes from the view 
+ 					this.$el.removeAttr('completed title');
 
-			   		return this;
-			   },
-			   attachModel: function(newModel){
-			   		this.model = newModel ;
-			   		this.render();
+ 					// listen to external objects		
+ 					this.listenTo( this.model, 'all', this.render );
+
+ 					this.render();
 			   		return this;
 			   },
 
 			   changeState: function(){
-			   		//this.model.toggleComplete();
-			   		var toggleTo = this.model.isComplete() ? false : true ; //oposit of current modle data
-			   		this.model.toggleComplete(toggleTo);
-			   		this.render();
+			   		// change the models complet property which calls render listener
+			   		this.model.toggle();
 			   		return this;
 			   },
 
 			   render: function(){
-			   		// send html back to asking module
-
-
+			   		
 
     				this.$el.attr('id', this.model.attributes.id)
-   							.children('input').attr('name',this.model.attributes.id)
-   							.prop('checked', this.model.isComplete() )
-   							.next('.title').html(this.model.attributes.title);	
+   							.children('input').attr('name',this.model.get('id') ) 
+   							.prop('checked', this.model.get('completed') )
+   							.next('.title').html( this.model.get('title')  );	
 
    					// set complet /incomplete class
-   					if( this.model.isComplete() ){
+   					if( this.model.get('completed') ){
    						this.$el.addClass('completed');
    						this.$el.removeClass('incomplete');
    					}else{
@@ -123,7 +108,7 @@ var ItemView = Backbone.View.extend({
    						this.$el.removeClass('completed');
    					}
 
-	
+					// send this view back to asking module
 			   		return this; 				
 			   }
 });
@@ -148,11 +133,12 @@ var ListView = Backbone.View.extend({
 					this.itemViews = [];
 				},
 
-				addItem: function(newItemModel){
+				addItem: function(newModelObj){
 
-					//initialize neew item
-					var newItemView  = new ItemView();
-					newItemView.attachModel(newItemModel);
+					//initialize new view item
+					// todo modle object passed from the this.collection add event
+
+					var newItemView  = new ItemView(newModelObj);
 
 					//adding adding item as sub view 
 					this.itemViews.push(newItemView);
@@ -163,14 +149,17 @@ var ListView = Backbone.View.extend({
 					// loop through all new objects and add the latest to the list
 				},
 				toggleCompleted: function(){
+
 						//loop through each element calling its remove method
+
+						this.model.hideCompleted =  !this.model.hideCompleted;
+
 						if(this.model.hideCompleted){
-							this.model.hideCompleted = false;
 							this.$el.children('#hideCompleted').html('Hide Completed');
 						}else{
-							this.model.hideCompleted = true;
 							this.$el.children('#hideCompleted').html('Show Completed');
 						}
+
 						this.render();
 						return this;
 						
@@ -179,21 +168,24 @@ var ListView = Backbone.View.extend({
 
 					//Add items that's not yet on the list but in the views array
 
-					_.each(this.itemViews, function(item){
+					//--> move hide functionality to each model instead simply add completed class or remove it upon update
+					//--> clever css to only add a hide to the whole
+					//--> then say hidelist .completed display none
 
-						if(this.model.hideCompleted && item.model.isComplete()){
-							//hide this element
-							item.$el.addClass('hidden');
-						}else{
-							//show this element
-							item.$el.removeClass('hidden');
-						}
-										
+					if( this.model.hideCompleted ){
+
+
+					}
+
+					//check for new items:
+
+					_.each(this.itemViews, function(item){				
 
      					if ( _.isNull(item.el.offsetParent) ){
      						// object if no parrent exists
-     						this.$el.append(item.$el);
-     					}; 
+     							this.$el.append(item.$el);
+     						}; 
+
 					}, this);
 
 
@@ -217,7 +209,7 @@ var FormView = Backbone.View.extend({
 
 							event.preventDefault();
 							var newID = _.uniqueId('item_');
-							var newItemData = { id: newID ,title: this.inputText.val() ,status:"incomplete"};
+							var newItemData = { id: newID ,title: this.inputText.val() ,completed:false};
 							listView.collection.add(newItemData);	
 							
 							// add success check here
@@ -229,28 +221,66 @@ var FormView = Backbone.View.extend({
 				}
 });
 
+// Footer View
+var FooterView = Backbone.View.extend({
+				el: $('#footer'),
+				events: {
+					'click .all': 'filterList',
+					'click .completed': 'filterList',
+					'click .incomplete':'filterList'
+				},
+
+				initialize: function(){
+					this.render();
+				},
+
+				render: function(){
+					return this;
+				},
+
+				filterList: function(event){
+
+					event.preventDefault();
+
+					//store current link clicked as jQuery Object
+					var $a =  $(event.target);
+
+					// remove all show classes fromt the list
+					listView.$el.removeClass('showAll showIncomplete showCompleted');
+
+					//dynamically add the latest show + html name to the list
+					listView.$el.addClass( 'show' + $a.html() );
+
+					this.$el.children('#listFilter').children('a').removeClass('active');
+
+					$a.addClass('active');
+					//set new acive link
+		
+				}
+});
 
 // App View
 var AppView = Backbone.View.extend({
 				el: $('#app'),
 				viewType : 'App',
 				initialize: function(){
-				this.formView = formView; // make publicaly avaialable
-				this.listView = listView;
+					this.formView = formView; // make publicaly avaialable
+					this.listView = listView;
 				},
 });
 
-// Item View
+
+
 
 
 // instantiate the formView for internal reference:
+
 var listView =  new ListView;
 var formView = new FormView();
-
+var footerView = new FooterView();
 
 // Instantiate the APP and set the master view for internal useage
 window.todoApp  = new AppView();
-
 
 
 

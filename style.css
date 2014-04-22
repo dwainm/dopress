@@ -43,7 +43,7 @@ header{
 	text-align: center;
 }
 
-#list, #item-add-form{
+#list, #item-add-form, #footer{
 	width: 35em;
 	margin: 2em auto;
 }
@@ -84,14 +84,51 @@ header{
 .item.completed{
 	color: #bbbbbb;
 }
-.item.hidden{
+
+
+.showCompleted .item.incomplete{
 	display: none;
+}
+
+.showIncomplete .item.completed{
+	display: none;
+}
+
+.showAll .item{
+	display: block;
 }
 
 #list .item:last-child{
 	border-bottom: none;
 }
 
+#footer > div{
+	display: inline-block;
+	color: #8D9C65;
+	font-size: 0.9em;
+	padding: 0 0.5em;
+}
+
+#footer #listFilter{
+	float: right;
+}
+
+#footer #listFilter a{
+	color: #689135;
+	font-size: 0.8em;
+	font-weight: 600;
+	text-decoration: none;
+	padding-right: 0.2em;
+}
+#footer #listFilter a.active{
+	color: grey;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+#footer #counter span{
+	margin-right: 0.5em;
+}
 
 @media only screen  and ( max-width:768px){
 	/* Mobile sytling */
