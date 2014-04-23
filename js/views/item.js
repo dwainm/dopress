@@ -10,7 +10,9 @@
 			   viewType : 'Item',
 			   model: {},
 			   events: {
-			   		'click': 'changeState'
+			   		'dblclick': 'edit',
+			   		'change input[type=checkbox]': 'changeState',
+			   		'keypress .edit': 'changeTitle'	
 			   },
 			   initialize: function(newModelObj){
 			   		
@@ -19,7 +21,7 @@
 
 
 			   		// register and prepar dom element
-		   			var tmpl  =  '<input type="checkbox"/><div class="title"></div>';
+		   			var tmpl  =  '<input type="checkbox"/><input class="edit" type="text" /><div class="title"></div>';
  					this.$el.html(tmpl).attr('class','item');
 
  					// remove the uneeded attritebutes from the view 
@@ -37,7 +39,23 @@
 			   		this.model.toggle();
 			   		return this;
 			   },
+			   edit: function(){
+			   		this.$('input.edit').show();
+			   		this.$('.title').hide();
+			   },
 
+			   changeTitle: function(event){
+			   		// check key press
+			   		if(event.keyCode===13){
+			   			var newTitle = $(event.target).val();
+			   			this.model.set('title',newTitle);
+			   			this.$('.title').show();
+			   			this.$('input.edit').empty().hide();
+			   		this.render();
+			   		}
+
+			   	
+			   },
 			   render: function(){
 			   		
 

@@ -102,6 +102,16 @@ header{
 	border-bottom: none;
 }
 
+.item input.edit{
+	display: none ;
+	margin-left:1em;
+	font-size: 1em;
+	background: #eeeeee;
+	border:none;
+	padding: 0.3em;
+	width: 70%;
+}
+
 #footer > div{
 	display: inline-block;
 	color: #8D9C65;

@@ -2,9 +2,9 @@ Roadmap:
 =======
 
 v1.1
-* implement footer count
-* possibly add a description for each item
+
 * implement local storage 
+* style editing nicely
 
 v2 (wordpress plugin)
 * plan and draw architecture 
@@ -16,3 +16,6 @@ v2 (wordpress plugin)
 * add admin link to footer
 * configure api plugin / set DoPress inactive when this plugin is not loaded and give linke to install this plugin directly fromt th admin interface
 * hook up models with WordPress data
+* delete items from the front end
+* hightlight all text when editing
+
