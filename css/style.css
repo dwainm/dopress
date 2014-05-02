@@ -1,0 +1,166 @@
+/*Scaffolding Css*/
+*{
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6{
+	padding: 1em 0.25em;
+}
+
+body{
+	background-color: rgb(230, 230, 230);  
+}
+
+#app{
+	width: 58em;
+	margin: 0 auto;
+	background: white;
+	padding-bottom: 3em;
+}
+
+header{
+	margin-top: 0;
+	padding-top: 0;
+	display: block;
+}
+/* Start your css below */
+
+body{
+	font-family: Sans-serif;
+}
+
+ul{
+	list-style-type: none;
+}
+
+#list .title{
+	display: inline;
+	margin-left: 1em;
+}
+
+header{
+	text-align: center;
+}
+
+#list, #item-add-form, #footer{
+	width: 35em;
+	margin: 2em auto;
+}
+
+#item-add-form{
+	height: 2em;
+}
+#item-add-form #item-add-text{
+	width: 29.5em;
+}
+
+#item-add-text {
+	font-size: 16px;
+	border: none;
+	padding: 0.5em 0.5em;
+	display: block;
+	float: left;
+	background: #E6E6E6;
+	color: black;
+	border-radius: 3px 0 0 3px;
+}
+
+
+#add-button {
+	background: #5DA206;
+	color: #FFF;
+	font-size: 17px;
+	padding: 0.4em 1.5em;
+	border: none;
+	border-radius: 0 3px 3px 0;
+	float: left;}
+
+#list .item{
+	border-bottom: 1px solid #CAE0C0;
+	padding: 0.5em 0.5em 0.7em;
+}
+
+.item.completed{
+	color: #bbbbbb;
+}
+
+
+.showCompleted .item.incomplete{
+	display: none;
+}
+
+.showIncomplete .item.completed{
+	display: none;
+}
+
+.showAll .item{
+	display: block;
+}
+
+#list .item:last-child{
+	border-bottom: none;
+}
+
+.item input.edit{
+	display: none ;
+	margin-left:1em;
+	font-size: 1em;
+	background: #eeeeee;
+	border:none;
+	padding: 0.3em;
+	width: 70%;
+}
+
+#footer > div{
+	display: inline-block;
+	color: #8D9C65;
+	font-size: 0.9em;
+	padding: 0 0.5em;
+}
+
+#footer #listFilter{
+	float: right;
+}
+
+#footer #listFilter a{
+	color: #689135;
+	font-size: 0.8em;
+	font-weight: 600;
+	text-decoration: none;
+	padding-right: 0.2em;
+}
+#footer #listFilter a.active{
+	color: grey;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+#footer #counter span{
+	margin-right: 0.5em;
+}
+
+@media only screen  and ( max-width:768px){
+	/* Mobile sytling */
+	#app{
+		width: 90%;
+	}
+	#list, #item-add-form {
+		width: 91%;
+	}
+	 #item-add-form {
+		width: 91%;
+		height: 1em;
+	}
+	
+	#item-add-form #item-add-text {
+		width: 71%;
+	
+		float: left;
+	}
+	
+	#item-add-form #add-button{
+		float: left;	
+	}	
+}
+
