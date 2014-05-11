@@ -7,9 +7,7 @@ Roadmap:
 =======
 
 v2 (wordpress plugin)
-* plan and draw architecture 
-* create plugin boilerplate code
-* plan post types and data create post type for todo tasks 
+* implement access so that post types only show for certain users/owner
 * implement admin menu's and pages
 * implement list of todo items in the menu
 * implement page take over 
@@ -22,7 +20,17 @@ Front End:
 * hightlight all text when editing
 * implement local storage 
 
+Finalize 2.0.0
+* comment all files / commit comments
+* create the branch 
+* set 2.1 goals
+* Launch on WP.org and on dwainm.com
+
 Future
 * multiple lists 
+* integrate customizer on the page that shows the todo (user clicks customize [only if setup correctly ]) and ti take them to the selected page in the customizer with some basic customizer settings
 
-
+HOURS log (just to see how many dev hours it took from version 1 to 2):
+-	20 (thursday 1 -friday 2 may ) cpt errors and structuring admin menu
+- 	8  custom meta boxes (creating and saving)
+-	

@@ -1,22 +1,18 @@
 <?php
-/*
+/**
 *	Plugin Name: DoPress
 * 	Plugin URI : https://github.com/dwainm/dopress
-* 	Description: An elegant to do list app built on top of WordPress. Now you own your todo list data.
+* 	Description: Run your own todo list. DoPress is an elegant to do list app built on top of WordPress. 
+*				 It will take the page you choose and turn it into your a todo list. The list items are 
+*				 stored for per user.
 *	Author: dwainm
-*	Version: 2.0
+* 	Requires at least: 3.8
 * 	Author URI: http://dwainm.com
+*	License: GPLv2
 */
 
+if( ! defined('ABSPATH') ){ exit; } // exit if this file is accessed directly
 
-
-/*DoPress.PHP*/
-
-/*Security first*/
-
-if( ! defined('ABSPATH') ){
-	exit; //exit if this file is accessed directly
-}
 
 
 if( !class_exists('DoPress') ){
@@ -30,16 +26,22 @@ if( !class_exists('DoPress') ){
 		*/
 		protected static $_instance = null;	
 
-		/*
+		/**
 		* Public variables for this plugin
+		* @var $_PATH
 		*/
-
-
+		protected $_PATH;
 
 		/*
+		*
+		*/
+		protected $_URL;
+
+
+		/**
 		* Plubic instance creation class
 		* self intatance
-		* since 2.0
+		* @since:  2.0
 		*/
 		public static function instance(){
 				if( is_null( self::$_instance ) ){
@@ -49,45 +51,95 @@ if( !class_exists('DoPress') ){
 			}
 		
 
-		/*
-		* Plubic class constructor
-		* since 2.0
+		/**
+		* The DoPress Class constructor
+		* @since 2.0.0
+		* @author @dwainm
+		* @todo regist 'dopress' text domain
 		*/
 		public function __construct(){
-			// include needed classes
-			require_once('includes/admin/class-dp-admin-menus.php');
-			require_once('includes/admin/class-dp-cpt-item.php');
-			//require_once('includes/admin/class-dp-admin-menus.php');
-			//require_once('includes/admin/class-dp-admin-menus.php');
-										
+
+			register_activation_hook( __FILE__ , array( $this, 'activate' ) );
+
+			// include plugin files
+			$this->includes();
+
+
 			// seutp admi menu's
+
 			$this->post_type = new dp_cpt_item();
 			$this->menu = new dp_admin_menus();
 			
+			register_deactivation_hook( __FILE__ , array( $this, 'deactivate' ) );
+		}
 
-		}	
+		/**
+		*  @author Dwain Maralack 
+		*  @since	
+		*  setup plugin path and URL
+		*/	
 
+		// helper function to reference this plugins directory
+		private function path_url_initialize (){
+			// assing to global internal variables
+				$_PATH = plugin_dir_path( __FILE__);
+				$_URL = plugins_url( '', __FILE__);
+		}
 
-	}
+		/** 
+		*
+		*/
+		private function includes(){			
+			require_once('includes/admin/class-dp-admin-menus.php');
+			require_once('includes/admin/class-dp-cpt-todo.php');
+			
+			//require_once('includes/admin/class-dp-admin-menus.php');
+			//require_once('includes/admin/class-dp-admin-menus.php');
+						
+		}
 
-}
+		/**
+		* Register the activation hook needed to setup the plugin
+		* @access public 
+		* @author dwainm
+		* @since 2.0
+		*/
+
+		public function activate(){
+			// initialize default settings
+
+			// delete data when deactivate 
+			//
+
+		}
+
+		/**
+		* Register the de-activation hook
+		* @access public 
+		* @author dwainm
+		* @since 2.0
+		*/
+
+		public function deactivate(){
+			//ad any activation stuff here
+		}
+
+	}// end class DoPress
+
+} // end if class exists
+
 
 /*
 * Load public reference to DoPress 
 * after checking that it exists
 */
 
-
 function DoPress(){
 	return DoPress::instance();
 }
 
+
 // set globals for access via the old method
 $GLOBALS['DoPress'] = DoPress();
 
-// helper function to reference this plugins directory
-if(! function_exists('pp')){
-	function pp(){
-		return plugin_dir_url(__FILE__);
-	}
-}
+// setup wordpress hooks
