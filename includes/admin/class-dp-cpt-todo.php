@@ -115,7 +115,7 @@ class dp_cpt_item{
 	        'not_found' => __( "No $plural found" , 'dopress'),
 	        'not_found_in_trash' => __( "No $single found in Trash", 'dopress' ),
 	        'parent_item_colon' => '',
-        	'menu_name' => $plural
+        	'menu_name' => 'DoPress'
 	    );
 	    $args = array(
 	        'labels' => $labels,
@@ -128,7 +128,8 @@ class dp_cpt_item{
 	        'capability_type' => 'post',
 	        'has_archive' => true,
 	        'hierarchical' => false,
-	        'menu_position' => 10,
+	        'menu_position' => 5,
+			'menu_icon' => '',
 	        'register_meta_box_cb' => array($this, 'dp_cpt_add_meta_boxes'),
 	        'supports' => ( $supports ) ? $supports : array( 'title', 'editor', 'page-attributes' )
 	    );

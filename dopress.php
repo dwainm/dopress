@@ -68,7 +68,7 @@ if( !class_exists('DoPress') ){
 			// seutp admi menu's
 
 			$this->post_type = new dp_cpt_item();
-			$this->menu = new dp_admin_menus();
+			$this->menus = new dp_admin_menus();
 			
 			register_deactivation_hook( __FILE__ , array( $this, 'deactivate' ) );
 		}
