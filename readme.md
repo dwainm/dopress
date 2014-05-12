@@ -8,7 +8,9 @@ Roadmap:
 
 v2 (wordpress plugin)
 
+* Do API
 * implement page take over 
+* Do: Frontend
 * add admin link to footer
 
 API
@@ -45,4 +47,6 @@ Future
 HOURS log (just to see how many dev hours it took from version 1 to 2):
 -	20 (thursday 1 -friday 2 may ) cpt errors and structuring admin menu
 - 	8  custom meta boxes (creating and saving)
--	
+-	1  Creating admin menu with custom icon
+-	2  settings -  API functionality - endpoints - implement post - json return 
+return

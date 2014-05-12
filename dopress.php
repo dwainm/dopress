@@ -32,6 +32,14 @@ if( !class_exists('DoPress') ){
 		*/
 		protected $_PATH;
 
+
+		/**
+		* private hoding class for the settings object
+		*
+		* @var $_PATH
+		*/
+		protected $settings;
+		
 		/*
 		*
 		*/
@@ -48,7 +56,7 @@ if( !class_exists('DoPress') ){
 					self::$_instance = new self();
 				}
 				return self::$_instance;
-			}
+		}
 		
 
 		/**
@@ -64,11 +72,9 @@ if( !class_exists('DoPress') ){
 			// include plugin files
 			$this->includes();
 
-
-			// seutp admi menu's
-
+			// seutp admin menu's
 			$this->post_type = new dp_cpt_item();
-			$this->menus = new dp_admin_menus();
+			$this->settings = new dp_admin_settings();
 			
 			register_deactivation_hook( __FILE__ , array( $this, 'deactivate' ) );
 		}
@@ -87,16 +93,19 @@ if( !class_exists('DoPress') ){
 		}
 
 		/** 
-		*
+		* included the files neeeded
+		* 
+		* @since 2.0.0
 		*/
 		private function includes(){			
-			require_once('includes/admin/class-dp-admin-menus.php');
-			require_once('includes/admin/class-dp-cpt-todo.php');
 			
-			//require_once('includes/admin/class-dp-admin-menus.php');
-			//require_once('includes/admin/class-dp-admin-menus.php');
+			require_once('includes/admin/class-dp-cpt-todo.php');
+			require_once('includes/admin/class-dp-admin-settings.php');
+
 						
 		}
+
+
 
 		/**
 		* Register the activation hook needed to setup the plugin
