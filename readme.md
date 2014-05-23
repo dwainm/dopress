@@ -24,18 +24,7 @@ Front End:
 * implement local storage 
 
 Finalize 2.0.0
-* comment all files / commit comments / comment classes :
-
- * Checkout
- *
- * The WooCommerce checkout class handles the checkout process, collecting user data and processing the payment.
- *
- * @class 		WC_Cart
- * @version		2.1.0
- * @package		WooCommerce/Classes
- * @category	Class
- * @author 		WooThemes
-
+* comment all files / commit comments / comment classes
 * create the branch 
 * set 2.1 goals
 * Launch on WP.org and on dwainm.com
@@ -48,5 +37,5 @@ HOURS log (just to see how many dev hours it took from version 1 to 2):
 -	20 (thursday 1 -friday 2 may ) cpt errors and structuring admin menu
 - 	8  custom meta boxes (creating and saving)
 -	1  Creating admin menu with custom icon
--	2  settings -  API functionality - endpoints - implement post - json return 
-return
+-	2  settings -  API functionality - endpoints - implement post - json 
+-   1.5 Planninbg and moving everything to github 

@@ -9,7 +9,7 @@ if(! defined('ABSPATH') ){ exit(); }
 class DP_List{
 
 	// data:
-		// array items
+		// array item id-s 
 		// owner/user-id 
 		// bool empty
 		// int total

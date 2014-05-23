@@ -1,9 +1,6 @@
 <?php
 
 if(!defined('ABSPATH')) exit;
-
-// todo 
-	// private vs protected?
 	
 class dp_cpt_item{
 

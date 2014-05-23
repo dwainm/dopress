@@ -104,22 +104,7 @@ if class_exists('DP_Item'){
 			// over and out , copy !
 			return $success;
 			
-		}// end get_wp_item
-
-	
-
-
-			// privated initialize item ( fill self up with the data once )
-			// protected save_wp_item item data must be called from each set or array set
-			// private query_this_item
-			// public get_arry
-			// public get _ each property individually 
-			// publig set_array
-			// public set_ _each individually
-		
-
-		
-
+		}// end get_wp_item		
 
 	}	// end class DP_Item 
 
