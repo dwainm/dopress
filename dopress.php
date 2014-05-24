@@ -72,6 +72,10 @@ if( !class_exists('DoPress') ){
 			// include plugin files
 			$this->includes();
 
+			//intiate the api
+			$this->api_endpoint = new DP_API_Endpoint();
+			$this->api_interface = new DP_API_Interface();
+
 			// seutp admin menu's
 			$this->post_type = new dp_cpt_item();
 			$this->settings = new dp_admin_settings();
@@ -99,9 +103,13 @@ if( !class_exists('DoPress') ){
 		*/
 		private function includes(){			
 			
+			// admin
 			require_once('includes/admin/class-dp-cpt-todo.php');
 			require_once('includes/admin/class-dp-admin-settings.php');
 
+			//front end
+			require_once('includes/class-dp-api-endpoint.php');
+			require_once('includes/class-dp-api-interface.php');
 						
 		}
 
@@ -115,10 +123,8 @@ if( !class_exists('DoPress') ){
 		*/
 
 		public function activate(){
-			// initialize default settings
-
+			// initialize the API endpoint and listeners
 			// delete data when deactivate 
-			//
 
 		}
 
