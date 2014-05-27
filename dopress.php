@@ -67,20 +67,24 @@ if( !class_exists('DoPress') ){
 		*/
 		public function __construct(){
 
+			define('DOPRESS_VERSION', '2.0.0');
+
 			register_activation_hook( __FILE__ , array( $this, 'activate' ) );
 
 			// include plugin files
 			$this->includes();
 
-			//intiate the api
-			$this->api_endpoint = new DP_API_Endpoint();
-			$this->api_interface = new DP_API_Interface();
-
 			// seutp admin menu's
 			$this->post_type = new dp_cpt_item();
 			$this->settings = new dp_admin_settings();
-			
+
+
 			register_deactivation_hook( __FILE__ , array( $this, 'deactivate' ) );
+
+			// don't load any front end code if we're in admin
+			if( is_admin() ){  return;  }
+			$this->intialize_frontend();
+			
 		}
 
 		/**
@@ -110,8 +114,35 @@ if( !class_exists('DoPress') ){
 			//front end
 			require_once('includes/class-dp-api-endpoint.php');
 			require_once('includes/class-dp-api-interface.php');
+			require_once('includes/class-dp-load-template-assets.php' );
 						
 		}
+
+		/** 
+		* setup the front end environment
+		* 
+		* @since 2.0.0
+		*/
+		private function intialize_frontend(){			
+							
+			//if( page_id == get_option(dopress_page_id) ){
+				define( 'DOPRESS_PAGE',true );
+
+				//intiate the api
+				$this->api_endpoint = new DP_API_Endpoint();
+				$this->api_interface = new DP_API_Interface();
+
+				// load the front end template
+				$this->load_template_assets = new DP_Load_template_assets();
+				//$this->template = new DP_Load_template_assets();
+
+			//}else{
+				// define( 'DOPRESS_PAGE ',false );	
+				return;
+			//}
+						
+		}
+		
 
 
 
